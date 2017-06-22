@@ -1,5 +1,5 @@
 # Linear Regression: Decomposition Method
-#----------------------------------
+# ----------------------------------
 #
 # This function shows how to use Tensorflow to
 # solve linear regression via the matrix inverse.
@@ -13,20 +13,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import ops
+
 ops.reset_default_graph()
 
 # Create graph
 sess = tf.Session()
 
 # Create the data
-x_vals = np.linspace(0, 10, 100)
-y_vals = x_vals + np.random.normal(0, 1, 100)
+x_vals = np.linspace(0, 10, 10)
+y_vals = x_vals + np.random.normal(0, 1, 10)
 
 # Create design matrix
 x_vals_column = np.transpose(np.matrix(x_vals))
-ones_column = np.transpose(np.matrix(np.repeat(1, 100)))
+ones_column = np.transpose(np.matrix(np.repeat(1, 10)))
 A = np.column_stack((x_vals_column, ones_column))
-
+print("x_vals:", x_vals)
+print("ones_column:", ones_column)
+print("random.normal:", np.random.normal(0, 1, 10))
 # Create b matrix
 b = np.transpose(np.matrix(y_vals))
 
@@ -57,7 +60,7 @@ print('y_intercept: ' + str(y_intercept))
 # Get best fit line
 best_fit = []
 for i in x_vals:
-  best_fit.append(slope*i+y_intercept)
+    best_fit.append(slope * i + y_intercept)
 
 # Plot the results
 plt.plot(x_vals, y_vals, 'o', label='Data')
