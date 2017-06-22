@@ -13,13 +13,13 @@ from tensorflow.python.framework import ops
 ops.reset_default_graph()
 
 # Iris Data
-# from sklearn import datasets
+from sklearn import datasets
 
-# iris = datasets.load_iris()
-# print(len(iris.data))
-# print(len(iris.target))
-# print(iris.data[0])
-# print(set(iris.target))
+iris = datasets.load_iris()
+print(len(iris.data))
+print(len(iris.target))
+print(iris.data[0])
+print(set(iris.target))
 
 # Low Birthrate Data
 import requests

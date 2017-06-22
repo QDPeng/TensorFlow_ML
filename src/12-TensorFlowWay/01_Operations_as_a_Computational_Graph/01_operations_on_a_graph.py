@@ -1,8 +1,10 @@
 # Operations on a Computational Graph
 import matplotlib.pyplot as plt
+import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import ops
+
 ops.reset_default_graph()
 
 # Create graph
@@ -16,12 +18,12 @@ x_data = tf.placeholder(tf.float32)
 m = tf.constant(3.)
 
 # Multiplication
-prod = tf.mul(x_data, m)
+prod = tf.multiply(x_data, m)
 for x_val in x_vals:
     print(sess.run(prod, feed_dict={x_data: x_val}))
 
-merged = tf.merge_all_summaries()
-if not os.path.exists('tensorboard_logs/')
+# merged = tf.merge_all_summaries()
+if not os.path.exists('tensorboard_logs/'):
     os.makedirs('tensorboard_logs/')
 
 my_writer = tf.train.SummaryWriter('tensorboard_logs/', sess.graph)

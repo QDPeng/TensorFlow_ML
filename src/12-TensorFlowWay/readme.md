@@ -1,4 +1,4 @@
-## [Ch 2: The Tensorflow Way](https://github.com/nfmcclure/tensorflow_cookbook/tree/master/02_Tensorflow_Way)
+## [The Tensorflow Way](https://github.com/nfmcclure/tensorflow_cookbook/tree/master/02_Tensorflow_Way)
 
 After we have established the basic objects and methods in Tensorflow, we now want to establish the components that make up Tensorflow algorithms.  We start by introducing computational graphs, and then move to loss functions and back propagation.  We end with creating a simple classifier and then show an example of evaluating regression and classification algorithms.
 

@@ -1,5 +1,5 @@
 # Combining Everything Together
-#----------------------------------
+# ----------------------------------
 # This file will perform binary classification on the
 # class if iris dataset. We will only predict if a flower is
 # I.setosa or not.
@@ -16,13 +16,14 @@ import numpy as np
 from sklearn import datasets
 import tensorflow as tf
 from tensorflow.python.framework import ops
+
 ops.reset_default_graph()
 
 # Load the iris data
 # iris.target = {0, 1, 2}, where '0' is setosa
 # iris.data ~ [sepal.width, sepal.length, pedal.width, pedal.length]
 iris = datasets.load_iris()
-binary_target = np.array([1. if x==0 else 0. for x in iris.target])
+binary_target = np.array([1. if x == 0 else 0. for x in iris.target])
 iris_2d = np.array([[x[2], x[3]] for x in iris.data])
 
 # Declare batch size
@@ -44,11 +45,11 @@ b = tf.Variable(tf.random_normal(shape=[1, 1]))
 # x1 - A*x2 + b
 my_mult = tf.matmul(x2_data, A)
 my_add = tf.add(my_mult, b)
-my_output = tf.sub(x1_data, my_add)
-#my_output = tf.sub(x_data[0], tf.add(tf.matmul(x_data[1], A), b))
+my_output = x1_data - my_add
+# my_output = tf.sub(x_data[0], tf.add(tf.matmul(x_data[1], A), b))
 
 # Add classification loss (cross entropy)
-xentropy = tf.nn.sigmoid_cross_entropy_with_logits(my_output, y_target)
+xentropy = tf.nn.sigmoid_cross_entropy_with_logits(labels=my_output, logits=y_target)
 
 # Create Optimizer
 my_opt = tf.train.GradientDescentOptimizer(0.05)
@@ -61,16 +62,15 @@ sess.run(init)
 # Run Loop
 for i in range(1000):
     rand_index = np.random.choice(len(iris_2d), size=batch_size)
-    #rand_x = np.transpose([iris_2d[rand_index]])
+    # rand_x = np.transpose([iris_2d[rand_index]])
     rand_x = iris_2d[rand_index]
     rand_x1 = np.array([[x[0]] for x in rand_x])
     rand_x2 = np.array([[x[1]] for x in rand_x])
-    #rand_y = np.transpose([binary_target[rand_index]])
+    # rand_y = np.transpose([binary_target[rand_index]])
     rand_y = np.array([[y] for y in binary_target[rand_index]])
     sess.run(train_step, feed_dict={x1_data: rand_x1, x2_data: rand_x2, y_target: rand_y})
-    if (i+1)%200==0:
-        print('Step #' + str(i+1) + ' A = ' + str(sess.run(A)) + ', b = ' + str(sess.run(b)))
-        
+    if (i + 1) % 200 == 0:
+        print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)) + ', b = ' + str(sess.run(b)))
 
 # Visualize Results
 # Pull out slope/intercept
@@ -81,13 +81,13 @@ for i in range(1000):
 x = np.linspace(0, 3, num=50)
 ablineValues = []
 for i in x:
-  ablineValues.append(slope*i+intercept)
+    ablineValues.append(slope * i + intercept)
 
 # Plot the fitted line over the data
-setosa_x = [a[1] for i,a in enumerate(iris_2d) if binary_target[i]==1]
-setosa_y = [a[0] for i,a in enumerate(iris_2d) if binary_target[i]==1]
-non_setosa_x = [a[1] for i,a in enumerate(iris_2d) if binary_target[i]==0]
-non_setosa_y = [a[0] for i,a in enumerate(iris_2d) if binary_target[i]==0]
+setosa_x = [a[1] for i, a in enumerate(iris_2d) if binary_target[i] == 1]
+setosa_y = [a[0] for i, a in enumerate(iris_2d) if binary_target[i] == 1]
+non_setosa_x = [a[1] for i, a in enumerate(iris_2d) if binary_target[i] == 0]
+non_setosa_y = [a[0] for i, a in enumerate(iris_2d) if binary_target[i] == 0]
 plt.plot(setosa_x, setosa_y, 'rx', ms=10, mew=2, label='setosa')
 plt.plot(non_setosa_x, non_setosa_y, 'ro', label='Non-setosa')
 plt.plot(x, ablineValues, 'b-')

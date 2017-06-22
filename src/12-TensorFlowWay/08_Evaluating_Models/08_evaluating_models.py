@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import ops
+
 ops.reset_default_graph()
 
 # Create graph
@@ -37,7 +38,7 @@ x_data = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 y_target = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 
 # Split data into train/test = 80%/20%
-train_indices = np.random.choice(len(x_vals), round(len(x_vals)*0.8), replace=False)
+train_indices = np.random.choice(len(x_vals), round(len(x_vals) * 0.8), replace=False)
 test_indices = np.array(list(set(range(len(x_vals))) - set(train_indices)))
 x_vals_train = x_vals[train_indices]
 x_vals_test = x_vals[test_indices]
@@ -45,7 +46,7 @@ y_vals_train = y_vals[train_indices]
 y_vals_test = y_vals[test_indices]
 
 # Create variable (one model parameter = A)
-A = tf.Variable(tf.random_normal(shape=[1,1]))
+A = tf.Variable(tf.random_normal(shape=[1, 1]))
 
 # Add operation to graph
 my_output = tf.matmul(x_data, A)
@@ -67,8 +68,8 @@ for i in range(100):
     rand_x = np.transpose([x_vals_train[rand_index]])
     rand_y = np.transpose([y_vals_train[rand_index]])
     sess.run(train_step, feed_dict={x_data: rand_x, y_target: rand_y})
-    if (i+1)%25==0:
-        print('Step #' + str(i+1) + ' A = ' + str(sess.run(A)))
+    if (i + 1) % 25 == 0:
+        print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)))
         print('Loss = ' + str(sess.run(loss, feed_dict={x_data: rand_x, y_target: rand_y})))
 
 # Evaluate accuracy (loss) on test set
@@ -102,7 +103,7 @@ x_data = tf.placeholder(shape=[1, None], dtype=tf.float32)
 y_target = tf.placeholder(shape=[1, None], dtype=tf.float32)
 
 # Split data into train/test = 80%/20%
-train_indices = np.random.choice(len(x_vals), round(len(x_vals)*0.8), replace=False)
+train_indices = np.random.choice(len(x_vals), round(len(x_vals) * 0.8), replace=False)
 test_indices = np.array(list(set(range(len(x_vals))) - set(train_indices)))
 x_vals_train = x_vals[train_indices]
 x_vals_test = x_vals[test_indices]
@@ -134,10 +135,10 @@ for i in range(1800):
     rand_x = [x_vals_train[rand_index]]
     rand_y = [y_vals_train[rand_index]]
     sess.run(train_step, feed_dict={x_data: rand_x, y_target: rand_y})
-    if (i+1)%200==0:
-        print('Step #' + str(i+1) + ' A = ' + str(sess.run(A)))
+    if (i + 1) % 200 == 0:
+        print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)))
         print('Loss = ' + str(sess.run(xentropy, feed_dict={x_data: rand_x, y_target: rand_y})))
-        
+
 # Evaluate Predictions on test set
 y_prediction = tf.squeeze(tf.round(tf.nn.sigmoid(tf.add(x_data, A))))
 correct_prediction = tf.equal(y_prediction, y_target)
@@ -152,7 +153,7 @@ A_result = -sess.run(A)
 bins = np.linspace(-5, 5, 50)
 plt.hist(x_vals[0:50], bins, alpha=0.5, label='N(-1,1)', color='white')
 plt.hist(x_vals[50:100], bins[0:50], alpha=0.5, label='N(2,1)', color='red')
-plt.plot((A_result, A_result), (0, 8), 'k--', linewidth=3, label='A = '+ str(np.round(A_result, 2)))
+plt.plot((A_result, A_result), (0, 8), 'k--', linewidth=3, label='A = ' + str(np.round(A_result, 2)))
 plt.legend(loc='upper right')
 plt.title('Binary Classifier, Accuracy=' + str(np.round(acc_value_test, 2)))
 plt.show()
