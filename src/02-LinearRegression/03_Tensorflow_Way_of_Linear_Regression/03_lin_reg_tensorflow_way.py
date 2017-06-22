@@ -1,5 +1,5 @@
 # Linear Regression: Tensorflow Way
-#----------------------------------
+# ----------------------------------
 #
 # This function shows how to use Tensorflow to
 # solve linear regression.
@@ -14,6 +14,7 @@ import numpy as np
 import tensorflow as tf
 from sklearn import datasets
 from tensorflow.python.framework import ops
+
 ops.reset_default_graph()
 
 # Create graph
@@ -24,7 +25,9 @@ sess = tf.Session()
 iris = datasets.load_iris()
 x_vals = np.array([x[3] for x in iris.data])
 y_vals = np.array([y[0] for y in iris.data])
-
+print("iris:", iris)
+print("x_vals:", x_vals)
+print("y_vals:", y_vals)
 # Declare batch size
 batch_size = 25
 
@@ -33,8 +36,8 @@ x_data = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 y_target = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 
 # Create variables for linear regression
-A = tf.Variable(tf.random_normal(shape=[1,1]))
-b = tf.Variable(tf.random_normal(shape=[1,1]))
+A = tf.Variable(tf.random_normal(shape=[1, 1]))
+b = tf.Variable(tf.random_normal(shape=[1, 1]))
 
 # Declare model operations
 model_output = tf.add(tf.matmul(x_data, A), b)
@@ -47,7 +50,7 @@ my_opt = tf.train.GradientDescentOptimizer(0.05)
 train_step = my_opt.minimize(loss)
 
 # Initialize variables
-init = tf.initialize_all_variables()
+init = tf.global_variables_initializer()
 sess.run(init)
 
 # Training loop
@@ -59,8 +62,8 @@ for i in range(100):
     sess.run(train_step, feed_dict={x_data: rand_x, y_target: rand_y})
     temp_loss = sess.run(loss, feed_dict={x_data: rand_x, y_target: rand_y})
     loss_vec.append(temp_loss)
-    if (i+1)%25==0:
-        print('Step #' + str(i+1) + ' A = ' + str(sess.run(A)) + ' b = ' + str(sess.run(b)))
+    if (i + 1) % 25 == 0:
+        print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)) + ' b = ' + str(sess.run(b)))
         print('Loss = ' + str(temp_loss))
 
 # Get the optimal coefficients
@@ -70,7 +73,7 @@ for i in range(100):
 # Get best fit line
 best_fit = []
 for i in x_vals:
-  best_fit.append(slope*i+y_intercept)
+    best_fit.append(slope * i + y_intercept)
 
 # Plot the result
 plt.plot(x_vals, y_vals, 'o', label='Data Points')

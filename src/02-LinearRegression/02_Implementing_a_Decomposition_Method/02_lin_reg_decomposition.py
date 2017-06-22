@@ -30,6 +30,7 @@ A = np.column_stack((x_vals_column, ones_column))
 print("x_vals:", x_vals)
 print("ones_column:", ones_column)
 print("random.normal:", np.random.normal(0, 1, 10))
+print("A:", A)
 # Create b matrix
 b = np.transpose(np.matrix(y_vals))
 
