@@ -1,5 +1,5 @@
 # Lasso and Ridge Regression
-#----------------------------------
+# ----------------------------------
 #
 # This function shows how to use Tensorflow to
 # solve lasso or ridge regression.
@@ -14,6 +14,7 @@ import numpy as np
 import tensorflow as tf
 from sklearn import datasets
 from tensorflow.python.framework import ops
+
 ops.reset_default_graph()
 
 # Create graph
@@ -33,8 +34,8 @@ x_data = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 y_target = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 
 # Create variables for linear regression
-A = tf.Variable(tf.random_normal(shape=[1,1]))
-b = tf.Variable(tf.random_normal(shape=[1,1]))
+A = tf.Variable(tf.random_normal(shape=[1, 1]))
+b = tf.Variable(tf.random_normal(shape=[1, 1]))
 
 # Declare model operations
 model_output = tf.add(tf.matmul(x_data, A), b)
@@ -42,16 +43,17 @@ model_output = tf.add(tf.matmul(x_data, A), b)
 # Declare Lasso loss function
 # Lasso Loss = L2_Loss + heavyside_step,
 # Where heavyside_step ~ 0 if A < constant, otherwise ~ 99
-#lasso_param = tf.constant(0.9)
-#heavyside_step = tf.truediv(1., tf.add(1., tf.exp(tf.mul(-100., tf.sub(A, lasso_param)))))
-#regularization_param = tf.mul(heavyside_step, 99.)
-#loss = tf.add(tf.reduce_mean(tf.square(y_target - model_output)), regularization_param)
+# lasso_param = tf.constant(0.9)
+# heavyside_step = tf.truediv(1., tf.add(1., tf.exp(tf.mul(-100., tf.sub(A, lasso_param)))))
+# regularization_param = tf.mul(heavyside_step, 99.)
+# loss = tf.add(tf.reduce_mean(tf.square(y_target - model_output)), regularization_param)
 
 # Declare the Ridge loss function
 # Ridge loss = L2_loss + L2 norm of slope
 ridge_param = tf.constant(1.)
 ridge_loss = tf.reduce_mean(tf.square(A))
-loss = tf.expand_dims(tf.add(tf.reduce_mean(tf.square(y_target - model_output)), tf.mul(ridge_param, ridge_loss)), 0)
+loss = tf.expand_dims(tf.add(tf.reduce_mean(tf.square(y_target - model_output)),
+                             tf.multiply(ridge_param, ridge_loss)), 0)
 
 # Declare optimizer
 my_opt = tf.train.GradientDescentOptimizer(0.001)
@@ -70,8 +72,8 @@ for i in range(1500):
     sess.run(train_step, feed_dict={x_data: rand_x, y_target: rand_y})
     temp_loss = sess.run(loss, feed_dict={x_data: rand_x, y_target: rand_y})
     loss_vec.append(temp_loss[0])
-    if (i+1)%300==0:
-        print('Step #' + str(i+1) + ' A = ' + str(sess.run(A)) + ' b = ' + str(sess.run(b)))
+    if (i + 1) % 300 == 0:
+        print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)) + ' b = ' + str(sess.run(b)))
         print('Loss = ' + str(temp_loss))
 
 # Get the optimal coefficients
@@ -81,7 +83,7 @@ for i in range(1500):
 # Get best fit line
 best_fit = []
 for i in x_vals:
-  best_fit.append(slope*i+y_intercept)
+    best_fit.append(slope * i + y_intercept)
 
 # Plot the result
 plt.plot(x_vals, y_vals, 'o', label='Data Points')

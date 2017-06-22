@@ -1,5 +1,5 @@
 # Linear Regression: L1 vs L2
-#----------------------------------
+# ----------------------------------
 #
 # This function shows how to use Tensorflow to
 # solve linear regression via the matrix inverse.
@@ -9,6 +9,7 @@ import numpy as np
 import tensorflow as tf
 from sklearn import datasets
 from tensorflow.python.framework import ops
+
 ops.reset_default_graph()
 
 # Create graph
@@ -22,7 +23,7 @@ y_vals = np.array([y[0] for y in iris.data])
 
 # Declare batch size and number of iterations
 batch_size = 25
-learning_rate = 0.4 # Will not converge with learning rate at 0.4
+learning_rate = 0.4  # Will not converge with learning rate at 0.4
 iterations = 50
 
 # Initialize placeholders
@@ -30,8 +31,8 @@ x_data = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 y_target = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 
 # Create variables for linear regression
-A = tf.Variable(tf.random_normal(shape=[1,1]))
-b = tf.Variable(tf.random_normal(shape=[1,1]))
+A = tf.Variable(tf.random_normal(shape=[1, 1]))
+b = tf.Variable(tf.random_normal(shape=[1, 1]))
 
 # Declare model operations
 model_output = tf.add(tf.matmul(x_data, A), b)
@@ -56,9 +57,8 @@ for i in range(iterations):
     sess.run(train_step_l1, feed_dict={x_data: rand_x, y_target: rand_y})
     temp_loss_l1 = sess.run(loss_l1, feed_dict={x_data: rand_x, y_target: rand_y})
     loss_vec_l1.append(temp_loss_l1)
-    if (i+1)%25==0:
-        print('Step #' + str(i+1) + ' A = ' + str(sess.run(A)) + ' b = ' + str(sess.run(b)))
-
+    if (i + 1) % 25 == 0:
+        print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)) + ' b = ' + str(sess.run(b)))
 
 # L2 Loss
 # Reinitialize graph
@@ -72,8 +72,8 @@ x_data = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 y_target = tf.placeholder(shape=[None, 1], dtype=tf.float32)
 
 # Create variables for linear regression
-A = tf.Variable(tf.random_normal(shape=[1,1]))
-b = tf.Variable(tf.random_normal(shape=[1,1]))
+A = tf.Variable(tf.random_normal(shape=[1, 1]))
+b = tf.Variable(tf.random_normal(shape=[1, 1]))
 
 # Declare model operations
 model_output = tf.add(tf.matmul(x_data, A), b)
@@ -97,9 +97,8 @@ for i in range(iterations):
     sess.run(train_step_l2, feed_dict={x_data: rand_x, y_target: rand_y})
     temp_loss_l2 = sess.run(loss_l2, feed_dict={x_data: rand_x, y_target: rand_y})
     loss_vec_l2.append(temp_loss_l2)
-    if (i+1)%25==0:
-        print('Step #' + str(i+1) + ' A = ' + str(sess.run(A)) + ' b = ' + str(sess.run(b)))
-
+    if (i + 1) % 25 == 0:
+        print('Step #' + str(i + 1) + ' A = ' + str(sess.run(A)) + ' b = ' + str(sess.run(b)))
 
 # Plot loss over time
 plt.plot(loss_vec_l1, 'k-', label='L1 Loss')
