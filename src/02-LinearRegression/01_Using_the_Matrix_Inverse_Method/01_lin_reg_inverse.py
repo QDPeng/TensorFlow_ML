@@ -1,5 +1,5 @@
 # Linear Regression: Inverse Matrix Method
-#----------------------------------
+# ----------------------------------
 #
 # This function shows how to use Tensorflow to
 # solve linear regression via the matrix inverse.
@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.framework import ops
+
 ops.reset_default_graph()
 
 # Create graph
@@ -20,7 +21,8 @@ sess = tf.Session()
 # Create the data
 x_vals = np.linspace(0, 10, 100)
 y_vals = x_vals + np.random.normal(0, 1, 100)
-
+print("x_vals:", x_vals)
+print("y_vals:", y_vals)
 # Create design matrix
 x_vals_column = np.transpose(np.matrix(x_vals))
 ones_column = np.transpose(np.matrix(np.repeat(1, 100)))
@@ -40,7 +42,7 @@ product = tf.matmul(tA_A_inv, tf.transpose(A_tensor))
 solution = tf.matmul(product, b_tensor)
 
 solution_eval = sess.run(solution)
-
+print("solution_eval:", solution_eval)
 # Extract coefficients
 slope = solution_eval[0][0]
 y_intercept = solution_eval[1][0]
@@ -51,7 +53,7 @@ print('y_intercept: ' + str(y_intercept))
 # Get best fit line
 best_fit = []
 for i in x_vals:
-  best_fit.append(slope*i+y_intercept)
+    best_fit.append(slope * i + y_intercept)
 
 # Plot the results
 plt.plot(x_vals, y_vals, 'o', label='Data')
