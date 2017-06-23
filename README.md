@@ -12,3 +12,4 @@ Machine Learning in TensorFlow
 * scikit-learn
 * requests 2.18.1
 * urllib3 1.21.1
+* nltk 3.2.4
