@@ -1,7 +1,7 @@
 # TensorFlow_ML
 Machine Learning in TensorFlow
 
-### Version
+### Dependencies
 
 * Python 3.5
 * TensorFlow 1.2.0
@@ -12,4 +12,5 @@ Machine Learning in TensorFlow
 * scikit-learn
 * requests 2.18.1
 * urllib3 1.21.1
-* nltk 3.2.4
+* nltk 3.2.4 natural language toolkit
+* Pillow 4.1.1 instead PIL(python image library)
